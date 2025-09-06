@@ -1,4 +1,4 @@
-const Rate = require("../models/Rate");
+const Rate = require("../models/Metalrate");
 
 
 const addRate = async (req, res) => {
@@ -9,7 +9,7 @@ const addRate = async (req, res) => {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    const newRate = new Rate({ metal, purity, rate, date });
+    const newRate = new Metalrate({ metal, purity, rate, date });
     await newRate.save();
 
     res.status(201).json(newRate);
@@ -22,7 +22,7 @@ const addRate = async (req, res) => {
 
 const getRates = async (req, res) => {
   try {
-    const rates = await Rate.find().sort({ date: -1 });
+    const rates = await Metalrate.find().sort({ date: -1 });
     res.json(rates);
   } catch (err) {
     console.error("Error fetching rates:", err.message);
@@ -39,7 +39,7 @@ const getLatestRate = async (req, res) => {
     if (metal) filter.metal = metal;
     if (purity) filter.purity = purity;
 
-    const latestRate = await Rate.findOne(filter).sort({ date: -1 });
+    const latestRate = await Metalrate.findOne(filter).sort({ date: -1 });
 
     if (!latestRate) {
       return res.status(404).json({ message: "No rate found" });
