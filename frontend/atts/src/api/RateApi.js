@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/rates";
+const API_URL = "https://atts-metalrate.onrender.com/api/rates";
 
 export const getRates = () => axios.get(API_URL);
 export const getRatesByMetalAndPurity = (metal, purity) =>
