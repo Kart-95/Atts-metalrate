@@ -4,7 +4,7 @@ import {
   createPurity,
   updatePurity,
   deletePurity,
-} from "../api/purityApi";
+} from "../api/PurityApi";
 
 function PurityManagement() {
   const [purities, setPurities] = useState([]);
