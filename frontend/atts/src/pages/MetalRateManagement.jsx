@@ -6,7 +6,7 @@ import { getRatesByMetalAndPurity, createRate } from "../api/RateApi";
 function MetalRateManagement() {
   const [purities, setPurities] = useState([]);
   const [formData, setFormData] = useState({
-    metal: "Gold",
+    metal: "",
     purity: "",
     rate: "",
     date: "",
