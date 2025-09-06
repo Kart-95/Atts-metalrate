@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getPurities } from "../api/PurityApi";
+import { getLatestRate } from "../api/RateApi";
 import { getRatesByMetalAndPurity, createRate } from "../api/RateApi";
 
 function MetalRateManagement() {
@@ -118,8 +119,8 @@ function MetalRateManagement() {
       {/* Latest Rate */}
       {latestRate ? (
         <p>
-          <strong>Latest Rate:</strong> {latestRate.rate} (on{" "}
-          {new Date(latestRate.date).toLocaleDateString()})
+          Latest {latestRate.metal} ({latestRate.purity}) Rate: {latestRate.rate} on{" "}
+          {new Date(latestRate.date).toLocaleDateString()}
         </p>
       ) : (
         <p>No previous rate found for this Metal & Purity.</p>
