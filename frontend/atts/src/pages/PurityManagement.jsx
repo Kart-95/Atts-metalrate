@@ -8,7 +8,7 @@ import {
 
 function PurityManagement() {
   const [purities, setPurities] = useState([]);
-  const [formData, setFormData] = useState({ metal: "Gold", name: "" });
+  const [formData, setFormData] = useState({ metal: "", name: "" });
   const [editId, setEditId] = useState(null);
 
   // Fetch all purities
