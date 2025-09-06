@@ -16,7 +16,7 @@ export const createRate = async (rateData) => {
 };
 
 export const getRatesByMetalAndPurity = async(metal, purity) =>{
-  axios.get(`${API_URL}?metal=${metal}&purity=${purity}`)};
+  await axios.get(`${API_URL}?metal=${metal}&purity=${purity}`)};
 
 export const getLatestRate = async (metal, purity) => {
   const params = {};
