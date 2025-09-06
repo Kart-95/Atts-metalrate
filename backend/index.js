@@ -8,7 +8,6 @@ const MetalRateRoutes = require('./routes/MetalRateRoutes')
 
 
 const app = express();
-const cors = require("cors");
 
 app.use(cors({
   origin: [
