@@ -1,67 +1,59 @@
-const MetalRate = require("../models/Metalrate");
-const Purity = require("../models/Purity");
+const Rate = require("../models/Rate");
 
-const addRate = async(req,res)=>{
-    try{
-        const {metal, purity, rate, date} = req.body;
-        if(!metal || !purity || !rate || !date) {
-            return res.status(400).json("All field are required");
-        }
 
-        const purityExists = await Purity.findById(purity);
-        if (!purityExists){
-            return res.status(404).json("Purity not found");
-        }
+const addRate = async (req, res) => {
+  try {
+    const { metal, purity, rate, date } = req.body;
 
-        const newRate = await MetalRate.create({metal, purity, rate, date});
-        res.status(201).json(newRate);
-    }catch(error){
-        res.status(500).json(error.message)
+    if (!metal || !purity || !rate || !date) {
+      return res.status(400).json({ error: "All fields are required" });
     }
+
+    const newRate = new Rate({ metal, purity, rate, date });
+    await newRate.save();
+
+    res.status(201).json(newRate);
+  } catch (err) {
+    console.error("Error adding rate:", err.message);
+    res.status(500).json({ error: "Failed to add rate" });
+  }
 };
 
-const getRates = async(req,res)=>{
-    try{
-        const {metal, purity, page = 1, limit = 10} = req.query;
-        const query = {};
 
-        if (metal) query.metal = metal;
-        if (purity) query.purity = purity;
-
-        const rates = await MetalRate.find(query)
-        .populate("purity")
-        .sort({date: -1})
-        .skip((page - 1) * limit)
-        .limit(parseInt(limit));
-
-        const total = await MetalRate.countDocuments(query);
-
-        res.json({total, page:parseInt(page), limit:parseInt(limit), rates});
-    }catch(error){
-        res.status(500).json(error.message);
-    }
+const getRates = async (req, res) => {
+  try {
+    const rates = await Rate.find().sort({ date: -1 });
+    res.json(rates);
+  } catch (err) {
+    console.error("Error fetching rates:", err.message);
+    res.status(500).json({ error: "Failed to fetch rates" });
+  }
 };
 
-const getLatestRate = async(req,res)=>{
-    try{
-        const {metal, purity} = req.query;
 
-        if(!metal || !purity){
-            return res.status(400).json("metal and purity are required")
-        }
+const getLatestRate = async (req, res) => {
+  try {
+    const { metal, purity } = req.query;
 
-        const latestRate = await MetalRate.findOne({metal, purity})
-        .sort({date:-1})
-        .populate("purity");
+    const filter = {};
+    if (metal) filter.metal = metal;
+    if (purity) filter.purity = purity;
 
-        if(!latestRate){
-            return res.status(404).json("No rate found");
-        }
+    const latestRate = await Rate.findOne(filter).sort({ date: -1 });
 
-        res.json(latestRate);
-    }catch(error){
-        res.status(500).json(error.message)
+    if (!latestRate) {
+      return res.status(404).json({ message: "No rate found" });
     }
+
+    res.json(latestRate);
+  } catch (err) {
+    console.error("Error fetching latest rate:", err.message);
+    res.status(500).json({ error: "Failed to fetch latest rate" });
+  }
 };
 
-module.exports = {addRate, getRates, getLatestRate};
+module.exports = {
+  addRate,
+  getRates,
+  getLatestRate,
+};
