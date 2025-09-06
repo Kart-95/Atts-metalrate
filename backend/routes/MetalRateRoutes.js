@@ -5,6 +5,6 @@ const{addRate, getRates, getLatestRate} = require("../controllers/Metalratecontr
 const router = express.Router();
 router.post("/", addRate);
 router.get("/",getRates);
-router.get("/",getLatestRate);
+router.get("/latest",getLatestRate);
 
 module.exports = router;
