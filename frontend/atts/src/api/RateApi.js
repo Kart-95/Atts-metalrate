@@ -10,7 +10,7 @@ export const getRates = async () => {
 };
 
 
-export const addRate = async (rateData) => {
+export const createRate = async (rateData) => {
   const res = await axios.post(API_URL, rateData);
   return res.data;
 };
