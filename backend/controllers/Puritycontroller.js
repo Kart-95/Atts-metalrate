@@ -53,5 +53,17 @@ const deletePurity = async(req,res)=>{
     }
 };
 
-module.exports = {createPurity, getPurities, updatePurity, deletePurity};
+const getPurityById = async (req, res) => {
+  try {
+    const purity = await Purity.findById(req.params.id);
+    if (!purity) {
+      return res.status(404).json({ message: "Purity not found" });
+    }
+    res.json(purity);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching purity" });
+  }
+};
+
+module.exports = {createPurity, getPurities, updatePurity, deletePurity, getPurityById};
 
