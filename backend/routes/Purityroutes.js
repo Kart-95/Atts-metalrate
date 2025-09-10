@@ -6,7 +6,7 @@ const{createPurity, getPurities, updatePurity, deletePurity, getPurityById} = re
 router.post("/", createPurity);
 router.get("/", getPurities);
 router.get("/:id", getPurityById);
-router.put("/", updatePurity);
+router.put("/:id", updatePurity);
 router.delete("/", deletePurity);
 
 module.exports = router;
