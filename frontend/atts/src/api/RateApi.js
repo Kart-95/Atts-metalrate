@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const API_URL = "https://atts-metalrate.onrender.com/api/rates";
+const API_URL = "https://atts-metalrate.onrender.com/api/rates/latest";
 
 
 export const getRates = async () => {
@@ -14,9 +14,6 @@ export const createRate = async (rateData) => {
   const res = await axios.post(API_URL, rateData);
   return res.data;
 };
-
-export const getRatesByMetalAndPurity = async(metal, purity) =>{
-  await axios.get(`${API_URL}?metal=${metal}&purity=${purity}`)};
 
 export const getLatestRate = async (metal, purity) => {
   const params = {};

@@ -33,31 +33,33 @@ function MetalRateManagement() {
   // Fetch rates whenever Metal/Purity changes
   useEffect(() => {
     if (formData.metal && formData.purity) {
-      fetchRates(formData.metal, formData.purity);
+      fetchLatestAndHistory(formData.metal, formData.purity);
     }
-  }, [formData.metal, formData.purity]);
+  }, [formData.metal, formData.purity]); 
 
-  const fetchRates = async (metal, purity) => {
-    try {
-      const res = await getRatesByMetalAndPurity(metal, purity);
-      const rates = res.data;
-      setHistory(rates);
-      if (rates.length > 0) {
-        setLatestRate(rates[rates.length - 1]); // last entry = latest
-      } else {
-        setLatestRate(null);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const fetchLatestAndHistory = async (metal, purity) => {
+  try {
+    // Fetch all history
+    const allRates = await getRates();
+    const filtered = allRates.filter(
+      (r) => r.metal === metal && r.purity === purity
+    );
+    setHistory(filtered);
+
+    // Fetch latest directly from API
+    const latest = await getLatestRate(metal, purity);
+    setLatestRate(latest);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await createRate(formData);
       setFormData((prev) => ({ ...prev, rate: "", date: "" }));
-      fetchRates(formData.metal, formData.purity);
+      fetchLatestAndHistory(formData.metal, formData.purity);
     } catch (error) {
       console.error(error);
     }
