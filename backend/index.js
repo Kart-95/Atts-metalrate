@@ -28,7 +28,4 @@ app.listen(PORT ,(req,res) =>{
 app.use("/api/purities",purityRoutes);
 app.use("/api/rates", MetalRateRoutes);
 
-//Test route
-app.get("/api/hello",(req,res)=>{
-    res.json("hello api is working")
-})
+

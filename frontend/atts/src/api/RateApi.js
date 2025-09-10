@@ -1,25 +1,13 @@
-import axios from "axios";
+import api from "./Axios";
 
+export const getRates = () => api.get("/rates");
 
-const API_URL = "https://atts-metalrate.onrender.com/api/rates/latest";
+export const createRate = (data) => api.post("/rates", data);
 
-
-export const getRates = async () => {
-  const res = await axios.get(API_URL);
-  return res.data;
-};
-
-
-export const createRate = async (rateData) => {
-  const res = await axios.post(API_URL, rateData);
-  return res.data;
-};
-
-export const getLatestRate = async (metal, purity) => {
+export const getLatestRate = (metal, purity) => {
   const params = {};
   if (metal) params.metal = metal;
   if (purity) params.purity = purity;
 
-  const res = await axios.get(`${API_URL}/latest`, { params });
-  return res.data;
+  return api.get("/rates/latest", { params });
 };
