@@ -1,22 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
+const app = express();
+
+app.use(cors())
+
 const dotenv = require('dotenv');
 dotenv.config();
 const purityRoutes = require('./routes/Purityroutes');
 const MetalRateRoutes = require('./routes/MetalRateRoutes')
 
 
-const app = express();
 
-app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "https://atts-metalrate.vercel.app"  // your Vercel domain
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
 
 app.use(express.json());
 
@@ -26,7 +22,7 @@ mongoose.connect(process.env.MONGO_URI);
 const PORT = process.env.PORT;
 
 app.listen(PORT ,(req,res) =>{
-    console.log(`server is running on port ${PORT}`)
+  console.log(`server is running on port ${PORT}`)
 })
 
 app.use("/api/purities",purityRoutes);
