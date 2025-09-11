@@ -7,6 +7,6 @@ router.post("/", createPurity);
 router.get("/", getPurities);
 router.get("/:id", getPurityById);
 router.put("/:id", updatePurity);
-router.delete("/", deletePurity);
+router.delete("/:id", deletePurity);
 
 module.exports = router;
